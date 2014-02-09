@@ -5,7 +5,7 @@ import requests
 
 class Client:
     
-    base_url = "http://api.trello.com/1"
+    base_url = "https://api.trello.com/1"
 
     def __init__( self, application_key, user_token ):
         self.auth = { 'key': application_key, 'token': user_token }
