@@ -1,11 +1,11 @@
 Card
-  shortUrl
-  idAttachmentCover
-  idList
-  shortLink
-  labels
   checkItemStates
   id
+  idAttachmentCover
+  idList
+  labels
+  shortLink
+  shortUrl
   due
   dateLastActivity
   subscribed
