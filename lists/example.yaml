@@ -1,0 +1,30 @@
+# Spec
+
+name: Example List        # required  String
+
+defaults:                 # optional  Object
+                          #   defines new defaults for tasks in this file
+
+  time: [morning]         # optional  List[String]   one or more of (morning, noon, night)
+                          #   daily-trello will be run at morning, noon, night. This controls when
+                          #   a task in active.
+                          #       default - [morning]
+
+  keep_score: True        # optional  Boolean
+                          #   when True, daily-trello will keep a track of your completions
+                          #       default - True
+
+  schedule: daily         # optional  daily|weekly|monthly 
+                          #   daily   - runs every day, or optionally after some number of days
+                          #   weekly  - runs according to the day of the week, given in the option
+                          #   monthly - runs once a month
+
+  schedule_option: null   # optional  depends on schedule
+
+                          #  daily - runs every day
+                          #     option = integer  # of days between runs
+                          #                       anything <1 is ignored
+
+tasks:
+  - name: Item 1
+    

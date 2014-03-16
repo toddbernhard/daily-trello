@@ -1,39 +1,33 @@
 #!/usr/bin/env python
 
 from client import Client
-from lists import get_or_create_list as get_list
+from lists  import get_or_create_list as get_list
 from pprint import pprint
-from cards import get_cards, create_card, close_card, open_card
+from cards  import * 
+from files  import load_routine
 
 cl = Client()
 
 my_bid = "fdfYIdoj"
 
-def load_routine(list_name):
-  import os
-  curdir = os.path.dirname(__file__)
-  filename = os.path.join(curdir, "lists/" + list_name)
-  f = open(filename)
 
-  items = f.readlines()
-  return list(map(lambda x: {'name': x.rstrip()}, items))
+def list_minus_list(list_a, list_b):
+  c = []
+  for a in list_a:
+    exists = False
+
+    for b in list_b:
+      if a['name'] == b['name']:
+        exists = True
+        break
+
+    if not exists:
+      c.append(a)
+
+  return c
+
 
 def regen_list(list_name):
-  def list_minus_list(list_a, list_b):
-    c = []
-    for a in list_a:
-      exists = False
-
-      for b in list_b:
-        if a['name'] == b['name']:
-          exists = True
-          break
-
-      if not exists:
-        c.append(a)
-
-    return c
-
 
   tasks = load_routine(list_name)
   #pprint(tasks)
@@ -48,14 +42,14 @@ def regen_list(list_name):
 
   for task in new_tasks:
     create_card(lid, task['name'], 'null')
-    #print("new task " + task['name'])
+    print("new task " + task['name'])
 
   for card in old_cards:
     close_card(card['id'])
-    #print("old cards " + card['name'])
+    print("old cards " + card['name'])
 
   for card in current_cards:
-    #print("current card " + card['name'])
+    print("current card " + card['name'])
     if card['closed']:
       open_card(card['id'])
 

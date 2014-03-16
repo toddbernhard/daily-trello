@@ -1,14 +1,9 @@
 #!/usr/bin/env python
 
 import requests
+from files import load_config
 
-key = ""
-token = ""
-with open("application_key", "r") as f:
-  key = f.read().replace('\n','')
-with open("token", "r") as f:
-  token = f.read().replace('\n','')
-
+config = load_config()
 
 class Client:
   
@@ -16,13 +11,19 @@ class Client:
   
   rest_map = {'get': requests.get, 'put': requests.put, 'post': requests.post}
   
-  def __init__( self, application_key = key, user_token = token):
+  def __init__( self, application_key = config['application_key'], user_token = config['user_token']):
     self.auth = { 'key': application_key, 'token': user_token }
   
-  def x( self, http_type, url, args = {} ):
+  def send( self, http_type, url, args = {} ):
     args.update(self.auth)
-    fn = self.rest_map[http_type]
-    return fn( self.base_url+url, params = args )
+    # fn = self.rest_map[http_type]
+    try:
+      answer = http_type( self.base_url+url, params = args ).json()
+      #print( str(answer) )
+      return answer
+    except:
+      print("failed @ " + self.base_url+url + ", " + str(args))
+      print( http_type( self.base_url+url, params = args ).text )
 
   def log_req( self, req, msg, keys = []):
     string = req.status_code.__str__() + " -- " + msg + " -- "
@@ -33,17 +34,17 @@ class Client:
   
   
   def get( self, url, args = {} ):
-    return self.x( requests.get, url, args )
+    return self.send( requests.get, url, args )
 
   def put( self, url, args = {} ):
-    return self.x( requests.put, url, args )
+    return self.send( requests.put, url, args )
 
   def update( self, url, args = {} ):
-    return self.x( requests.update, url, args )
+    return self.send( requests.update, url, args )
 
   def post( self, url, args = {} ):
-    return self.x( requests.post, url, args )
+    return self.send( requests.post, url, args )
 
   def delete( self, url, args = {} ):
-    return self.x( requests.delete, url, args )
+    return self.send( requests.delete, url, args )
 

@@ -1,5 +1,5 @@
-application_key
-token
+config.yaml
+lists/*
 *.swp
 
 
