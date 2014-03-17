@@ -35,7 +35,6 @@ def filter_now(tasks):
     now = 'noon'
   else:
     now = 'night'
-  now = 'morning'
 
   tasks = list(filter(lambda x: (now in x['time']), tasks))
 
