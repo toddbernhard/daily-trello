@@ -1,18 +1,24 @@
-
+from pprint import pprint
 from client import Client
 
 cl = Client()
 
 def get_lists(bid):
-  return cl.get("/boards/" + bid + "/lists")
+  b = cl.get("/boards/" + bid + "/lists")
+  #print("")
+  #print("lists")
+  #pprint(b)
+  return b
 
 def create_list(bid, name):
+  print("new list ?!?! "+name)
   r = cl.post("/lists", { 'name': name, 'idBoard': bid } )
-  print(r.status_code.__str__() + " list created: " + r.text)
+  print("create list call")
+  pprint(r)
 
 def get_list_id(bid, name):
   mylists = get_lists(bid)
-  filter(lambda x: x == name, mylists)
+  mylists = list(filter(lambda x: x['name'] == name, mylists))
   
   if len(mylists) > 0:
     return mylists[0]['id']

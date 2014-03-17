@@ -4,12 +4,10 @@ from client import Client
 from lists  import get_or_create_list as get_list
 from pprint import pprint
 from cards  import * 
-from files  import load_routine
+from files  import load_config, load_tasks_now
 
 cl = Client()
-
-my_bid = "fdfYIdoj"
-
+my_bid = load_config()['board_id']
 
 def list_minus_list(list_a, list_b):
   c = []
@@ -27,14 +25,15 @@ def list_minus_list(list_a, list_b):
   return c
 
 
-def regen_list(list_name):
-
-  tasks = load_routine(list_name)
-  #pprint(tasks)
+task_lists = load_tasks_now()
+pprint(task_lists)
     
-  lid = get_list(my_bid, list_name)
+for name, tasks in task_lists.items():
+  print("")
+  print(name)
+  lid = get_list(my_bid, name)
   cards = get_cards(lid)
-  #print(cards)
+  pprint(list(map(lambda x: {'name': x['name']}, cards)))
 
   new_tasks = list_minus_list(tasks, cards)
   old_cards = list_minus_list(cards, tasks)
@@ -53,7 +52,6 @@ def regen_list(list_name):
     if card['closed']:
       open_card(card['id'])
 
-regen_list("Morning")
 
 print("check cards")
 for card in get_cards(get_list(my_bid, "Morning")):

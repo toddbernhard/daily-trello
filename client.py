@@ -18,6 +18,7 @@ class Client:
     args.update(self.auth)
     # fn = self.rest_map[http_type]
     try:
+      print("url: "+str(self.base_url+url)+", args: "+str(args))
       answer = http_type( self.base_url+url, params = args ).json()
       #print( str(answer) )
       return answer

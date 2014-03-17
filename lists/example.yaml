@@ -19,7 +19,8 @@ defaults:                 # optional  Object
                           #   weekly  - runs according to the day of the week, given in the option
                           #   monthly - runs once a month
 
-  schedule_option: null   # optional  depends on schedule
+  schedule_option: 
+       {interval: 1}  # optional  depends on schedule
 
                           #  daily - runs every day
                           #     option = integer  # of days between runs
