@@ -11,8 +11,14 @@ def load_config():
 
 
 def get_list_files():
+  exclude_example = load_config()['turn_off_example']
+
   list_dir = os.path.join(os.path.dirname(__file__), "lists")
   for root,dirs,files in os.walk(list_dir):
+
+    if exclude_example:
+      files = filter(lambda x: x != 'example.yaml', files)
+
     return list(map(lambda x: os.path.join(root,x), files))
 
   return list(tasks)

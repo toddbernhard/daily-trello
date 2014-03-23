@@ -2,7 +2,7 @@
 
 from client import Client
 from boards import get_or_create_board as get_board
-from lists  import get_or_create_list as get_list
+from lists  import get_or_create_list as get_list, get_lists
 from pprint import pprint
 from cards  import * 
 from files  import load_config, get_list_files, load_routine
@@ -16,7 +16,6 @@ def get_now():
     now = 'noon'
   else:
     now = 'night'
-  now = 'morning'
   return now
 
 def filter_now(tasks):
@@ -132,8 +131,10 @@ for name, tasks in task_lists.items():
 
 
 print("\ncheck cards")
-for card in get_cards(get_list(bid, "Morning")):
-  print("# " + card['name'] + " :: " + card['id'])
+for lid in get_lists(bid):
+  print("-- List: " + lid[u'name'] + " --")
+  for card in get_cards(lid[u'id']):
+    print("# " + card['name'] + " :: " + card['id'])
 
 
 print("\n")

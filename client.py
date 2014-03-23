@@ -17,10 +17,10 @@ class Client:
   def send( self, http_type, url, args = {} ):
     args.update(self.auth)
     full_url = self.base_url + url
-    print("-- request")
-    print("--   http_type: " + str(http_type))
-    print("--   url: "+str(full_url))
-    print("--   args: "+str(args))
+    #print("-- request")
+    #print("--   http_type: " + str(http_type))
+    #print("--   url: "+str(full_url))
+    #print("--   args: "+str(args))
 
     answer = http_type( full_url, params = args )
     #pprint(answer)

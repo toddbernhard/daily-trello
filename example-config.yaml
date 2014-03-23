@@ -1,0 +1,5 @@
+application_key: <your trello app key>
+user_token: <user auth token obtained from user for your app>
+username: <username>
+default_board: Daily Trello
+turn_off_example: false
