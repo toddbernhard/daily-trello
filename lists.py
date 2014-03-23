@@ -4,7 +4,7 @@ from client import Client
 cl = Client()
 
 def get_lists(bid):
-  b = cl.get("/boards/" + bid + "/lists")
+  b = cl.get("/boards/" + bid + "/lists").json
   #print("")
   #print("lists")
   #pprint(b)
@@ -12,7 +12,7 @@ def get_lists(bid):
 
 def create_list(bid, name):
   print("new list ?!?! "+name)
-  r = cl.post("/lists", { 'name': name, 'idBoard': bid } )
+  r = cl.post("/lists", { 'name': name, 'idBoard': bid } ).json
   print("create list call")
   pprint(r)
 

@@ -26,6 +26,8 @@ defaults:                 # optional  Object
                           #     option = integer  # of days between runs
                           #                       anything <1 is ignored
 
+refresh_time: [morning, noon, night]
+
 tasks:
   - name: Item 1
     

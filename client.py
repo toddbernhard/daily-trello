@@ -2,6 +2,7 @@
 
 import requests
 from files import load_config
+from pprint import pprint
 
 config = load_config()
 
@@ -9,22 +10,21 @@ class Client:
   
   base_url = "https://api.trello.com/1"
   
-  rest_map = {'get': requests.get, 'put': requests.put, 'post': requests.post}
   
   def __init__( self, application_key = config['application_key'], user_token = config['user_token']):
     self.auth = { 'key': application_key, 'token': user_token }
   
   def send( self, http_type, url, args = {} ):
     args.update(self.auth)
-    # fn = self.rest_map[http_type]
-    try:
-      print("url: "+str(self.base_url+url)+", args: "+str(args))
-      answer = http_type( self.base_url+url, params = args ).json()
-      #print( str(answer) )
-      return answer
-    except:
-      print("failed @ " + self.base_url+url + ", " + str(args))
-      print( http_type( self.base_url+url, params = args ).text )
+    full_url = self.base_url + url
+    print("-- request")
+    print("--   http_type: " + str(http_type))
+    print("--   url: "+str(full_url))
+    print("--   args: "+str(args))
+
+    answer = http_type( full_url, params = args )
+    #pprint(answer)
+    return answer
 
   def log_req( self, req, msg, keys = []):
     string = req.status_code.__str__() + " -- " + msg + " -- "

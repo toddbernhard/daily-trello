@@ -6,60 +6,14 @@ from pprint import pprint
 
 
 def load_config():
-  return yaml.load(open('config.yaml'))
+  config_file = os.path.join(os.path.dirname(__file__), "config.yaml")
+  return yaml.load(open(config_file))
 
 
-def load_tasks_now():
-  task_lists = dict()
-
-  # get lists
+def get_list_files():
   list_dir = os.path.join(os.path.dirname(__file__), "lists")
   for root,dirs,files in os.walk(list_dir):
-
-    # load and filter tasks
-    for filename in files:
-      next_list = load_routine(os.path.join(root,filename))
-      next_list['tasks'] = filter_now(next_list['tasks'])
-      task_lists[next_list['name']] = next_list['tasks']
-  
-  return task_lists
-
-
-def filter_now(tasks):
-
-  # get now as time value
-  now = datetime.now()
-  if now.hour <= 6:
-    now = 'morning'
-  elif now.hour <= 12:
-    now = 'noon'
-  else:
-    now = 'night'
-
-  tasks = list(filter(lambda x: (now in x['time']), tasks))
-
-  def is_scheduled_daily(now, task):
-    if task['schedule_option']['interval'] < 2:
-      return True
-    else:
-      days = (now - datetime.utcfromtimestamp(0)).days
-      if (days + task['schedule_option']['offset']) % (task['schedule_option']['interval']) == 0:
-        return True
-      else:
-        return False
-
-  def is_scheduled_weekly(now, task):
-    weekdays = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
-    day = weekdays[now.weekday()]
-    return day in task['schedule_option']
-
-  def is_scheduled(now, task):
-    if task['schedule'] == 'daily':
-      return is_scheduled_daily(now, task)
-    elif task['schedule'] == 'weekly':
-      return is_scheduled_weekly(now, task)
-
-  tasks = list(filter(lambda x: is_scheduled(datetime.now(), x), tasks))
+    return list(map(lambda x: os.path.join(root,x), files))
 
   return list(tasks)
 
